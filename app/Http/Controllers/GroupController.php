@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class GroupController extends Controller
 {
@@ -15,5 +17,35 @@ class GroupController extends Controller
         $users = Group::all();
 
         return $users;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        if (!Auth::user()->hasAdminGroup) {
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name'      => 'required|string|max:255|unique:groups',
+            'active'    => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $group = Group::create([
+            'name'      => strtoupper($request->name),
+            'active'    => $request->active,
+        ]);
+
+        return response()->json([
+            'data'          => $group,
+        ]);
     }
 }

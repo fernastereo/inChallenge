@@ -13,6 +13,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const ADMIN_GROUP = 'ADMIN';
     /**
      * The attributes that are mass assignable.
      *
@@ -46,5 +47,10 @@ class User extends Authenticatable
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class);
+    }
+
+    public function getHasAdminGroupAttribute()
+    {
+        return $this->groups->contains('name', User::ADMIN_GROUP);
     }
 }

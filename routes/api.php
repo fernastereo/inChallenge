@@ -21,6 +21,11 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
+
     Route::get('users', [UserController::class, 'index']);
+    Route::post('users', [UserController::class, 'store']);
+    Route::delete('users/{user}', [UserController::class, 'destroy']);
+
     Route::get('groups', [GroupController::class, 'index']);
+    Route::post('groups', [GroupController::class, 'store']);
 });

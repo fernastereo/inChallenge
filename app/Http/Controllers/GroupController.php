@@ -40,7 +40,7 @@ class GroupController extends Controller
 
         return response()->json([
             'data' => $group,
-        ]);
+        ], 201);
     }
 
     /**
@@ -59,6 +59,6 @@ class GroupController extends Controller
         return response()->json([
             'message'   => 'Group removed',
             'group'     => $group,
-        ]);
+        ], 200);
     }
 }

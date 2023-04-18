@@ -25,7 +25,7 @@ class UserGroupController extends Controller
             'message' => 'User added to group',
             'user'    => $user,
             'group'   => $group
-        ]);
+        ], 200);
     }
 
     public function remove(User $user, Group $group)
@@ -44,6 +44,6 @@ class UserGroupController extends Controller
             'message' => 'User removed from group',
             'user'    => $user,
             'group'   => $group
-        ]);
+        ], 200);
     }
 }

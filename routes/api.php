@@ -19,7 +19,7 @@ use App\Http\Controllers\UserGroupController;
 
 Route::post('login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'checkAdminGroup'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout']); //ok
 
     Route::get('users', [UserController::class, 'index']);

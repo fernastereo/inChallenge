@@ -11,12 +11,6 @@ class UserGroupController extends Controller
 {
     public function assign(User $user, Group $group)
     {
-        if (!Auth::user()->hasAdminGroup) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
         $hasGroup = $user->groups->contains($group->id);
 
         if ($hasGroup) {
@@ -36,12 +30,6 @@ class UserGroupController extends Controller
 
     public function remove(User $user, Group $group)
     {
-        if (!Auth::user()->hasAdminGroup) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
         $hasGroup = $user->groups->contains($group->id);
 
         if (!$hasGroup) {

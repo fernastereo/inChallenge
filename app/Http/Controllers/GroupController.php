@@ -24,15 +24,9 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Auth::user()->hasAdminGroup) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
         $validator = Validator::make($request->all(), [
-            'name'      => 'required|string|max:255|unique:groups',
-            'active'    => 'required|boolean',
+            'name'   => 'required|string|max:255|unique:groups',
+            'active' => 'required|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -40,8 +34,8 @@ class GroupController extends Controller
         }
 
         $group = Group::create([
-            'name'      => strtoupper($request->name),
-            'active'    => $request->active,
+            'name'   => strtoupper($request->name),
+            'active' => $request->active,
         ]);
 
         return response()->json([
@@ -54,12 +48,6 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        if (!Auth::user()->hasAdminGroup) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
         if ($group->users()->count() > 0) {
             return response()->json([
                 'message' => 'This group still has members',

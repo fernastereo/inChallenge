@@ -25,12 +25,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Auth::user()->hasAdminGroup) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
         $validator = Validator::make($request->all(), [
             'name'      => 'required|string|max:255',
             'email'     => 'required|string|email|max:255|unique:users',
@@ -57,32 +51,10 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(User $user)
     {
-        if (!Auth::user()->hasAdminGroup) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
         if (Auth::user()->id === $user->id) {
             return response()->json([
                 'message' => 'You cannot delete your own user',
@@ -92,8 +64,8 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
-            'message'       => 'User removed',
-            'user'          => $user,
+            'message' => 'User removed',
+            'user'    => $user,
         ]);
     }
 }

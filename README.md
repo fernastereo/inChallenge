@@ -1,66 +1,216 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# User management system API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This API allows admin users to manage users and groups. It provides the following features:
 
-## About Laravel
+-   Create users with a name
+-   Delete users
+-   Assign users to a group they aren't already part of
+-   Remove users from a group
+-   Create groups
+-   Delete groups when they have no members
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Getting Started
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+To use this API, you need to have the following installed:
 
-## Learning Laravel
+-   PHP >= 7.4
+-   Composer
+-   Laravel >= 8.x
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Installation
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. Clone the repository from GitHub
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+git clone https://github.com/fernastereo/inChallenge.git
+```
 
-## Laravel Sponsors
+2. Install dependencies
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+cd inChallenge
 
-### Premium Partners
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+3. Copy the .env.example file and rename it to .env
 
-## Contributing
+```
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Update database credentials in .env file
 
-## Code of Conduct
+5. Run database migrations
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+php artisan migrate
+```
 
-## Security Vulnerabilities
+6. Seed the database with sample data
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+php artisan db:seed
+```
+
+7. Start the development server
+
+```
+php artisan serve
+```
+
+## API Endpoints
+
+The API has the following endpoints:
+
+### Users
+
+Get all users
+
+```
+GET /api/users
+```
+
+This endpoint returns a list of all users.
+
+Create a user
+
+```
+POST /api/users
+```
+
+This endpoint creates a new user. The request body should contain a JSON object with the following properties:
+
+name: The user's name (required)<br>
+email: The user's email (required)<br>
+password: The user's password (required)
+
+Example request body:
+
+```
+{
+    "name": "John Doe"
+    "email: "john@user.com"
+    "password": "password"
+}
+```
+
+Delete a user
+
+```
+DELETE /api/users/{id}
+```
+
+This endpoint deletes a user with the given ID.
+
+### Groups
+
+Get all groups
+
+```
+GET /api/groups
+```
+
+This endpoint returns a list of all groups.
+
+Create a group
+
+```
+POST /api/groups
+```
+
+This endpoint creates a new group. The request body should contain a JSON object with the following properties::
+
+name: The group's name (required)<br>
+active: true/false.
+
+Example request body:
+
+```
+{
+    "name": "ADMIN"
+    "active: true
+}
+```
+
+Delete a group
+
+```
+DELETE /api/groups/{id}
+```
+
+This endpoint deletes a group with the given ID if it has no members.
+
+Add a user to a group
+
+```
+POST /api/users/{userId}/groups/{groupId}
+```
+
+This endpoint adds a user with the given ID to a group with the given ID.
+
+Remove a user from a group
+
+```
+DELETE /api/users/{userId}/groups/{groupId}
+```
+
+This endpoint removes a user with the given ID from a group with the given ID.
+
+## Authentication
+
+This API uses Sanctum for authentication. To access the endpoints that require authentication, you need to include an Authorization header with a valid API token.
+
+You can obtain an API token by sending a POST request to the /api/login endpoint with valid credentials. The response body will contain a JSON object with the API token.
+
+Example request body:
+
+```
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+```
+
+Example response body:
+
+```
+{
+  "message": "Access granted",
+  "user": {
+      "id": 1,
+      "name": "User's name",
+      "email": "user@example.com",
+      "email_verified_at": "2023-04-17T20:56:02.000000Z",
+      "created_at": "2023-04-17T20:56:02.000000Z",
+      "updated_at": "2023-04-17T20:56:02.000000Z"
+  },
+  "access_token": "1|bTvaMB90F6fiEjuEc4ha2xzNuyvL3eevsFkyiRSsZ",
+  "token_type": "Bearer"
+}
+```
+
+## Error Handling
+
+The API uses HTTP status codes to indicate the success or failure of an API request. In case of an error, the API returns an error response in JSON format.
+
+Errors that can occur while making requests to the API include the following:
+
+-   400 Bad Request - The request could not be understood or was missing required parameters.
+-   401 Unauthorized - Authentication failed or user does not have permissions for the requested operation.
+-   404 Not Found - The requested resource was not found.
+-   405 Method Not Allowed - The HTTP method used is not supported for the requested endpoint.
+-   422 Unprocessable Entity - Validation failed for the request parameters.
+-   500 Internal Server Error - An unexpected error occurred while processing the request.
+
+The error response in JSON format includes an error message describing the error that occurred.
+
+## Database Model
+
+![Database Model](model.png)
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The User management system API is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

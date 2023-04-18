@@ -83,6 +83,12 @@ class UserController extends Controller
             ], 401);
         }
 
+        if (Auth::user()->id === $user->id) {
+            return response()->json([
+                'message' => 'You cannot delete your own user',
+            ], 200);
+        }
+
         $user->delete();
 
         return response()->json([

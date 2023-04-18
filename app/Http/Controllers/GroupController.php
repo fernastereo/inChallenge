@@ -45,7 +45,32 @@ class GroupController extends Controller
         ]);
 
         return response()->json([
-            'data'          => $group,
+            'data' => $group,
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Group $group)
+    {
+        if (!Auth::user()->hasAdminGroup) {
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        if ($group->users()->count() > 0) {
+            return response()->json([
+                'message' => 'This group still has members',
+            ], 200);
+        }
+
+        $group->delete();
+
+        return response()->json([
+            'message'   => 'Group removed',
+            'group'     => $group,
         ]);
     }
 }
